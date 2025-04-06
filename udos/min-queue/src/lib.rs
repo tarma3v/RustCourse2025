@@ -4,42 +4,56 @@ use std::collections::VecDeque;
 
 #[derive(Default)]
 pub struct MinQueue<T> {
-    // TODO: your code goes here.
+    data: VecDeque<T>,
+    min_deque: VecDeque<T>,
 }
 
 impl<T: Clone + Ord> MinQueue<T> {
     pub fn new() -> Self {
-        // TODO: your code goes here.
-        unimplemented!()
+        Self {
+            data: VecDeque::new(),
+            min_deque: VecDeque::new(),
+        }
     }
 
     pub fn push(&mut self, val: T) {
-        // TODO: your code goes here.
-        unimplemented!()
+        self.data.push_back(val.clone());
+        while let Some(back) = self.min_deque.back() {
+            if *back > val {
+                self.min_deque.pop_back();
+            } else {
+                break;
+            }
+        }
+        self.min_deque.push_back(val);
     }
 
     pub fn pop(&mut self) -> Option<T> {
-        // TODO: your code goes here.
-        unimplemented!()
+        if let Some(val) = self.data.pop_front() {
+            if let Some(front) = self.min_deque.front() {
+                if *front == val {
+                    self.min_deque.pop_front();
+                }
+            }
+            Some(val)
+        } else {
+            None
+        }
     }
 
     pub fn front(&self) -> Option<&T> {
-        // TODO: your code goes here.
-        unimplemented!()
+        self.data.front()
     }
 
     pub fn min(&self) -> Option<&T> {
-        // TODO: your code goes here.
-        unimplemented!()
+        self.min_deque.front()
     }
 
     pub fn len(&self) -> usize {
-        // TODO: your code goes here.
-        unimplemented!()
+        self.data.len()
     }
 
     pub fn is_empty(&self) -> bool {
-        // TODO: your code goes here.
-        unimplemented!()
+        self.data.is_empty()
     }
 }
